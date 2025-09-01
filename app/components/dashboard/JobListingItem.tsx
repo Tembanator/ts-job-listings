@@ -8,7 +8,9 @@ import ViewApplicantsLink from "./ViewApplicantsLink";
 import { getTotalNumberOfApplications } from "@/app/actions/applicationActions";
 
 const JobListingItem = async ({ job }: { job: Job }) => {
-  const numApplicants = await getTotalNumberOfApplications({ job: job._id });
+  const numApplicants = await getTotalNumberOfApplications({
+    jobId: job._id.toString(),
+  });
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
