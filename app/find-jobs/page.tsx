@@ -7,7 +7,11 @@ import {
 import FilterForm from "../components/FilterForm";
 import JobListings from "../components/JobListings";
 
-async function page({ searchParams }: { searchParams: JobSearchParams }) {
+async function page({
+  searchParams,
+}: {
+  searchParams: Promise<JobSearchParams>;
+}) {
   const awaitedSearchParams = await searchParams;
   const jobPosts: Job[] | [] = await getJobs(awaitedSearchParams);
   const numJobs = await getTotalNumberOfJobs(awaitedSearchParams);
