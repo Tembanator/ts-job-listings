@@ -4,13 +4,7 @@
 // All content is static and does not use any props.
 
 import React from "react";
-import {
-  ChevronLeft,
-  MapPin,
-  Briefcase,
-  DollarSign,
-  ArrowRight,
-} from "lucide-react";
+import { MapPin, Briefcase, DollarSign, ArrowRight } from "lucide-react";
 import { getJobById } from "@/app/actions/jobActions";
 import BackButton from "@/app/components/BackButton";
 import { currentUser } from "@clerk/nextjs/server";

@@ -1,7 +1,7 @@
 "use client"; // This directive is necessary to make this a client component in Next.js
 
 import React, { useState } from "react";
-import { Upload, CheckCircle, Loader, Loader2 } from "lucide-react";
+import { Upload, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createApplication } from "@/app/actions/applicationActions";
 import { useParams } from "next/navigation";
@@ -11,7 +11,6 @@ import { useParams } from "next/navigation";
 const App = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [url, setUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const params = useParams();
   const { slug } = params;
@@ -78,7 +77,6 @@ const App = () => {
       });
       const signedUrl = await uploadRequest.json();
       if (uploadRequest.status === 200) {
-        setUrl(signedUrl);
         setUploading(false);
         // console.log(url);
         await handleApplication(signedUrl, slug);

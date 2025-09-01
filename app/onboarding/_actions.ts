@@ -20,7 +20,7 @@ export const completeOnboarding = async (formData: FormData) => {
       },
     });
 
-    const updatedUser = await updateUserByClerkId(userId, {
+    await updateUserByClerkId(userId, {
       isCompany: (formData.get("role") as string) === "company",
     });
 
