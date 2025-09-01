@@ -3,14 +3,14 @@ import ApplicantItem from "@/app/components/ApplicantItem";
 import React from "react";
 
 interface ApplicantsPageProps {
-  params: {
+  params: Promise<{
     jobSlug: string;
     slug: string;
-  };
+  }>;
 }
 
 export default async function page({ params }: ApplicantsPageProps) {
-  const { jobSlug } = params;
+  const { jobSlug } = await params;
   const applications = await getJobApplications({ job: jobSlug.toString() });
   console.log(applications);
   return (
