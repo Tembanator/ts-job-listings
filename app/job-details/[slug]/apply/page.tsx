@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 
 // The main component for uploading a CV.
 // It features a drag-and-drop area and a file input button.
-const App = () => {
+const Apply = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -165,4 +165,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Apply;
