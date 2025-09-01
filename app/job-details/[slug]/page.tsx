@@ -17,11 +17,11 @@ import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 
 // The main component that renders the job listing page.
-const Page = async ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: { params: any }) => {
   const user = await currentUser();
   const role = user?.publicMetadata?.role;
 
-  const { slug } = params;
+  const { slug } = await params;
   const job = await getJobById(slug);
   return (
     <div className="min-h-screen font-sans flex flex-col items-center md:p-8">
