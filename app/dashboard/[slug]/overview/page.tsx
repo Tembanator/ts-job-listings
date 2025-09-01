@@ -13,9 +13,9 @@ export default async function page() {
   const role = user?.publicMetadata?.role;
 
   const myUser = await findUserByClerkId(user.id);
-
+  let applications = [];
   if (role === "job-seeker") {
-    var applications = await getUserApplications({
+    applications = await getUserApplications({
       applicant: myUser._id.toString(),
     });
   }

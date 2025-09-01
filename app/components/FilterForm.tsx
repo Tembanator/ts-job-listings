@@ -15,7 +15,7 @@ const FilterForm = ({
   params,
 }: {
   uniqueCategories: string[];
-  params: any;
+  params: JobSearchParams;
 }) => {
   console.log(params);
   return (
@@ -37,7 +37,7 @@ const FilterForm = ({
                 type="text"
                 id="location"
                 name="location"
-                defaultValue={params?.location?.$regex || ""}
+                defaultValue={params?.location || ""}
                 placeholder="e.g., Remote, London"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
@@ -49,7 +49,7 @@ const FilterForm = ({
               type="checkbox"
               id="remote"
               name="remote"
-              defaultChecked={params.remote === true}
+              defaultChecked={params.remote === "on"}
               className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500 border-gray-300"
             />
             <label htmlFor="remote" className="font-medium">
@@ -114,7 +114,7 @@ const FilterForm = ({
                 type="number"
                 id="salaryMinimum"
                 name="salaryMinimum"
-                defaultValue={params?.salaryMinimum?.$gte || ""}
+                defaultValue={params?.salaryMinimum || ""}
                 placeholder="Min"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
@@ -124,7 +124,7 @@ const FilterForm = ({
                 type="number"
                 id="salaryMaximum"
                 name="salaryMaximum"
-                defaultValue={params?.salaryMaximum?.$lte || ""}
+                defaultValue={params?.salaryMaximum || ""}
                 placeholder="Max"
                 className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
