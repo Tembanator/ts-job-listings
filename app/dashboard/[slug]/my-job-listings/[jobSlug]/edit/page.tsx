@@ -2,8 +2,12 @@ import { getJobById } from "@/app/actions/jobActions";
 import JobForm from "@/app/components/dashboard/JobForm";
 import React from "react";
 
-export default async function page({ params }: { params: any }) {
-  const { jobSlug } = await params;
+export default async function page({
+  params,
+}: {
+  params: { jobSlug: string };
+}) {
+  const { jobSlug } = params;
 
   const job = await getJobById(jobSlug);
 

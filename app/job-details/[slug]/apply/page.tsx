@@ -78,7 +78,7 @@ const App = () => {
       const signedUrl = await uploadRequest.json();
       if (uploadRequest.status === 200) {
         setUploading(false);
-        // console.log(url);
+
         await handleApplication(signedUrl, slug);
         toast.success("File uploaded successfully");
       } else {

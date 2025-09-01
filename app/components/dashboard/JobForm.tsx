@@ -40,7 +40,6 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
       qualifications: job?.qualifications,
       remote: job?.remote,
     };
-    console.log(defaultValues);
   }
   const {
     register,
@@ -78,7 +77,6 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
   const onSubmit: SubmitHandler<CreateJobFormData> = async (
     data: CreateJobFormData
   ) => {
-    // console.log("Form submitted with data:", data);
     (async () => {
       setIsLoading(true);
       const response = !job

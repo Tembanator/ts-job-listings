@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import ChangeApplicationStatusButton from "./dashboard/applicants/ChangeApplicationStatusButton";
 
-const ApplicantItem = ({ application }: { application: any }) => {
+const ApplicantItem = ({ application }: { application: Application }) => {
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

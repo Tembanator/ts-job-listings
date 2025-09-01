@@ -21,7 +21,6 @@ export default function DashboardTabs() {
   if (!user) {
     return null;
   }
-  console.log("User role:", role);
   const currentPath = pathname.split("/")[3];
   return (
     <div className="w-full bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6 flex flex-wrap justify-center lg:justify-start">

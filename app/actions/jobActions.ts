@@ -20,7 +20,6 @@ export async function createJob(formData: CreateJobFormData) {
     };
     const job = new Job(newJob);
     await job.save();
-    console.log("Job created successfully:");
     return { success: true };
   } catch (error) {
     console.error("Error creating job:", error);
@@ -56,7 +55,6 @@ export async function getTotalNumberOfJobs(query: any) {
 
     const jobsTotal = await Job.countDocuments(query);
 
-    // console.log("Fetched jobs:", jobs);
     return JSON.parse(JSON.stringify(jobsTotal));
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -101,7 +99,6 @@ export async function getJobs(query: any) {
       .limit(pageSize)
       .skip((pages - 1) * pageSize);
 
-    // console.log("Fetched jobs:", jobs);
     return JSON.parse(JSON.stringify(jobs));
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -140,7 +137,6 @@ export async function getAllJobs(query: any) {
       model: User,
     });
 
-    // console.log("Fetched jobs:", jobs);
     return JSON.parse(JSON.stringify(jobs));
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -214,7 +210,6 @@ export async function deleteJob(
     if (!deletedJob) {
       return { success: false, message: "Job not found." };
     }
-    console.log("Job deleted successfully:", deletedJob);
     return { success: true, message: "Job deleted successfully." };
   } catch (error) {
     console.error("Error deleting job:", error);

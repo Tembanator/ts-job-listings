@@ -19,12 +19,11 @@ export default async function page({
   const awaitedSearchParams = await searchParams;
   awaitedSearchParams.postedBy = myUser._id;
 
-  // console.log(awaitedSearchParams);
   const jobs = await getJobs(awaitedSearchParams);
   const allJobPosts: Job[] | [] = await getAllJobs({
     postedBy: myUser._id,
   });
-  // console.log(jobs);
+
   if (!jobs || jobs.length === 0) {
     return (
       <NoJobsFound
