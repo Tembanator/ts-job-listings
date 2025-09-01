@@ -7,6 +7,15 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { findMyCurrentUser } from "./userActions";
 
+type JobFilter = {
+  location?: { $regex: string; $options: string };
+  category?: string;
+  remote?: boolean;
+  salaryMinimum?: { $gte: number };
+  salaryMaximum?: { $lte: number };
+  pages?: number;
+};
+
 export async function createJob(formData: CreateJobFormData) {
   try {
     await connectDB();
@@ -27,34 +36,32 @@ export async function createJob(formData: CreateJobFormData) {
   }
 }
 
-export async function getTotalNumberOfJobs(query: any) {
+export async function getTotalNumberOfJobs(jobSearchParams: JobSearchParams) {
   await connectDB();
   try {
-    delete query.pageSize;
-    delete query.pages;
+    const filter: JobFilter = {};
 
-    if (query.location) {
-      query.location = { $regex: query.location, $options: "i" };
-    }
-    if (query.remote) {
-      if (query.remote === "on") {
-        query.remote = true;
-      } else if (query.remote === "off") {
-        query.remote = false;
-      }
-    }
-    if (query.salaryMinimum) {
-      query.salaryMinimum = {
-        ...(query.salaryMinimum && { $gte: Number(query.salaryMinimum) }),
-      };
-    }
-    if (query.salaryMaximum) {
-      query.salaryMaximum = {
-        ...(query.salaryMaximum && { $lte: Number(query.salaryMaximum) }),
-      };
+    if (jobSearchParams.location) {
+      filter.location = { $regex: jobSearchParams.location, $options: "i" };
     }
 
-    const jobsTotal = await Job.countDocuments(query);
+    if (jobSearchParams.category) {
+      filter.category = jobSearchParams.category;
+    }
+
+    if (jobSearchParams.remote) {
+      filter.remote = jobSearchParams.remote === "on";
+    }
+
+    if (jobSearchParams.salaryMinimum) {
+      filter.salaryMinimum = { $gte: Number(jobSearchParams.salaryMinimum) };
+    }
+
+    if (jobSearchParams.salaryMaximum) {
+      filter.salaryMaximum = { $lte: Number(jobSearchParams.salaryMaximum) };
+    }
+
+    const jobsTotal = await Job.countDocuments(filter);
 
     return JSON.parse(JSON.stringify(jobsTotal));
   } catch (error) {
@@ -62,29 +69,33 @@ export async function getTotalNumberOfJobs(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
+
 export async function getJobs(jobSearchParams: JobSearchParams) {
-  await connectDB();
   try {
-    console.log("getJobs query:", jobSearchParams);
-    const filter = {
-      ...(jobSearchParams.location && {
-        location: { $regex: jobSearchParams.location, $options: "i" },
-      }),
-      ...(jobSearchParams.category && {
-        category: jobSearchParams.category,
-      }),
-      ...(jobSearchParams.remote && {
-        remote: jobSearchParams.remote === "on",
-      }),
-      ...(jobSearchParams.salaryMinimum && {
-        salaryMinimum: { $gte: Number(jobSearchParams.salaryMinimum) },
-      }),
-      ...(jobSearchParams.salaryMaximum && {
-        salaryMaximum: { $lte: Number(jobSearchParams.salaryMaximum) },
-      }),
-    };
-    const pageSize = Number(jobSearchParams.pageSize) || 10;
-    const pages = Number(jobSearchParams.page) || 1;
+    const filter: JobFilter = {};
+
+    if (jobSearchParams.location) {
+      filter.location = { $regex: jobSearchParams.location, $options: "i" };
+    }
+
+    if (jobSearchParams.category) {
+      filter.category = jobSearchParams.category;
+    }
+
+    if (jobSearchParams.remote) {
+      filter.remote = jobSearchParams.remote === "on";
+    }
+
+    if (jobSearchParams.salaryMinimum) {
+      filter.salaryMinimum = { $gte: Number(jobSearchParams.salaryMinimum) };
+    }
+
+    if (jobSearchParams.salaryMaximum) {
+      filter.salaryMaximum = { $lte: Number(jobSearchParams.salaryMaximum) };
+    }
+
+    const pageSize = 10;
+    const pages = Number(jobSearchParams.pages) || 1;
 
     const jobs = await Job.find(filter)
       .populate({
@@ -103,25 +114,27 @@ export async function getJobs(jobSearchParams: JobSearchParams) {
 export async function getAllJobs(jobSearchParams: JobSearchParams) {
   await connectDB();
   try {
-    console.log("getJobs query:", jobSearchParams);
-    const filter = {
-      ...(jobSearchParams.location && {
-        location: { $regex: jobSearchParams.location, $options: "i" },
-      }),
-      ...(jobSearchParams.category && {
-        category: jobSearchParams.category,
-      }),
-      ...(jobSearchParams.remote && {
-        remote: jobSearchParams.remote === "on",
-      }),
-      ...(jobSearchParams.salaryMinimum && {
-        salaryMinimum: { $gte: Number(jobSearchParams.salaryMinimum) },
-      }),
-      ...(jobSearchParams.salaryMaximum && {
-        salaryMaximum: { $lte: Number(jobSearchParams.salaryMaximum) },
-      }),
-    };
-    console.log("getJobs filter:", filter);
+    const filter: JobFilter = {};
+
+    if (jobSearchParams.location) {
+      filter.location = { $regex: jobSearchParams.location, $options: "i" };
+    }
+
+    if (jobSearchParams.category) {
+      filter.category = jobSearchParams.category;
+    }
+
+    if (jobSearchParams.remote) {
+      filter.remote = jobSearchParams.remote === "on";
+    }
+
+    if (jobSearchParams.salaryMinimum) {
+      filter.salaryMinimum = { $gte: Number(jobSearchParams.salaryMinimum) };
+    }
+
+    if (jobSearchParams.salaryMaximum) {
+      filter.salaryMaximum = { $lte: Number(jobSearchParams.salaryMaximum) };
+    }
 
     const jobs = await Job.find(filter).populate({
       path: "postedBy",
@@ -131,6 +144,17 @@ export async function getAllJobs(jobSearchParams: JobSearchParams) {
     return JSON.parse(JSON.stringify(jobs));
   } catch (error) {
     console.error("Error fetching jobs:", error);
+    return JSON.parse(JSON.stringify([]));
+  }
+}
+
+export async function getUniqueCategories() {
+  await connectDB();
+  try {
+    const categories: string[] = await Job.distinct("category");
+    return JSON.parse(JSON.stringify(categories));
+  } catch (error) {
+    console.error("Error fetching unique categories:", error);
     return JSON.parse(JSON.stringify([]));
   }
 }

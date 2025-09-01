@@ -3,6 +3,7 @@ import {
   getAllJobs,
   getJobs,
   getTotalNumberOfJobs,
+  getUniqueCategories,
 } from "../actions/jobActions";
 import FilterForm from "../components/FilterForm";
 import JobListings from "../components/JobListings";
@@ -11,21 +12,15 @@ async function page({ searchParams }: { searchParams: JobSearchParams }) {
   const awaitedSearchParams = await searchParams;
   const jobPosts: Job[] | [] = await getJobs(awaitedSearchParams);
   const numJobs = await getTotalNumberOfJobs(awaitedSearchParams);
-  const allJobPosts: Job[] | [] = await getAllJobs({});
-  console.log("awaitedSearchParams:", awaitedSearchParams);
+
   const activeJobPosts = jobPosts.filter((job) => job.status === "draft");
-  const activeAllJobPosts = allJobPosts.filter(
-    (job) => job.status === "active"
-  );
 
   // Get unique categories and locations from the mock data for the select dropdowns
-  const uniqueCategories = [
-    ...new Set(activeAllJobPosts.map((job) => job.category)),
-  ];
+  const uniqueCategories = await getUniqueCategories();
 
-  if (activeJobPosts.length === 0) {
-    return <div className="grid grid-cols-1 gap-6">No job postings found.</div>;
-  }
+  // if (activeJobPosts.length === 0) {
+  //   return <div className="grid grid-cols-1 gap-6">No job postings found.</div>;
+  // }
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* Filters Sidebar */}

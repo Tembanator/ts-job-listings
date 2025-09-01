@@ -94,7 +94,7 @@ declare global {
     category?: string;
     salaryMinimum?: string;
     salaryMaximum?: string;
-    page?: string;
+    pages?: string;
     pageSize?: string;
   }
 }

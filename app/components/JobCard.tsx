@@ -11,11 +11,16 @@ const JobCard = ({ job }: { job: Job }) => {
         <div className="flex-1">
           <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
           <p className="text-sm text-gray-600">
-            {job.company} - {job.location}
+            {job.company} - {job.location || "Remote"}
           </p>
-          <p className="text-sm text-green-600 mt-1 font-medium">
-            {job.jobType}
-          </p>
+          <div className="flex items-center space-x-2 mt-1">
+            <p className="text-sm text-green-600 font-medium">{job.jobType}</p>
+            {job.salaryMinimum && job.salaryMaximum && (
+              <p className="text-sm text-gray-500">
+                (${job.salaryMinimum} - ${job.salaryMaximum})
+              </p>
+            )}
+          </div>
         </div>
       </div>
       <p className="text-gray-700 leading-relaxed">
