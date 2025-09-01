@@ -96,6 +96,7 @@ declare global {
     salaryMaximum?: string;
     pages?: string;
     pageSize?: string;
+    postedBy?: string;
   }
 }
 // declare global {
