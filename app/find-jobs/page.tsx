@@ -7,12 +7,12 @@ import {
 import FilterForm from "../components/FilterForm";
 import JobListings from "../components/JobListings";
 
-async function page({ searchParams }: { searchParams: JobSearchQuery }) {
-  const awaitedSearchParams = searchParams;
+async function page({ searchParams }: { searchParams: JobSearchParams }) {
+  const awaitedSearchParams = await searchParams;
   const jobPosts: Job[] | [] = await getJobs(awaitedSearchParams);
   const numJobs = await getTotalNumberOfJobs(awaitedSearchParams);
   const allJobPosts: Job[] | [] = await getAllJobs({});
-
+  console.log("awaitedSearchParams:", awaitedSearchParams);
   const activeJobPosts = jobPosts.filter((job) => job.status === "draft");
   const activeAllJobPosts = allJobPosts.filter(
     (job) => job.status === "active"

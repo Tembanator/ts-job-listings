@@ -88,13 +88,24 @@ declare global {
   }
 }
 declare global {
-  interface JobSearchQuery {
+  interface JobSearchParams {
     location?: string;
-    remote?: boolean;
+    remote?: string;
     category?: string;
-    salaryMinimum?: number;
-    salaryMaximum?: number;
-    page?: number;
-    pageSize?: number;
+    salaryMinimum?: string;
+    salaryMaximum?: string;
+    page?: string;
+    pageSize?: string;
   }
 }
+// declare global {
+//   interface JobFilter {
+//     location?: string;
+//     remote?: string;
+//     category?: string;
+//     salaryMinimum?: string;
+//     salaryMaximum?: string;
+//     page?: string;
+//     pageSize?: string;
+//   }
+// }

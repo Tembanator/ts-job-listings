@@ -62,37 +62,31 @@ export async function getTotalNumberOfJobs(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
-export async function getJobs(query: any) {
+export async function getJobs(jobSearchParams: JobSearchParams) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 10;
-    const pages = Number(query.pages) || 1;
+    console.log("getJobs query:", jobSearchParams);
+    const filter = {
+      ...(jobSearchParams.location && {
+        location: { $regex: jobSearchParams.location, $options: "i" },
+      }),
+      ...(jobSearchParams.category && {
+        category: jobSearchParams.category,
+      }),
+      ...(jobSearchParams.remote && {
+        remote: jobSearchParams.remote === "on",
+      }),
+      ...(jobSearchParams.salaryMinimum && {
+        salaryMinimum: { $gte: Number(jobSearchParams.salaryMinimum) },
+      }),
+      ...(jobSearchParams.salaryMaximum && {
+        salaryMaximum: { $lte: Number(jobSearchParams.salaryMaximum) },
+      }),
+    };
+    const pageSize = Number(jobSearchParams.pageSize) || 10;
+    const pages = Number(jobSearchParams.page) || 1;
 
-    delete query.pageSize;
-    delete query.pages;
-
-    if (query.location) {
-      query.location = { $regex: query.location, $options: "i" };
-    }
-    if (query.remote) {
-      if (query.remote === "on") {
-        query.remote = true;
-      } else if (query.remote === "off") {
-        query.remote = false;
-      }
-    }
-    if (query.salaryMinimum) {
-      query.salaryMinimum = {
-        ...(query.salaryMinimum && { $gte: Number(query.salaryMinimum) }),
-      };
-    }
-    if (query.salaryMaximum) {
-      query.salaryMaximum = {
-        ...(query.salaryMaximum && { $lte: Number(query.salaryMaximum) }),
-      };
-    }
-
-    const jobs = await Job.find(query)
+    const jobs = await Job.find(filter)
       .populate({
         path: "postedBy",
         model: User,
@@ -106,34 +100,30 @@ export async function getJobs(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
-export async function getAllJobs(query: any) {
+export async function getAllJobs(jobSearchParams: JobSearchParams) {
   await connectDB();
   try {
-    delete query.pageSize;
-    delete query.pages;
+    console.log("getJobs query:", jobSearchParams);
+    const filter = {
+      ...(jobSearchParams.location && {
+        location: { $regex: jobSearchParams.location, $options: "i" },
+      }),
+      ...(jobSearchParams.category && {
+        category: jobSearchParams.category,
+      }),
+      ...(jobSearchParams.remote && {
+        remote: jobSearchParams.remote === "on",
+      }),
+      ...(jobSearchParams.salaryMinimum && {
+        salaryMinimum: { $gte: Number(jobSearchParams.salaryMinimum) },
+      }),
+      ...(jobSearchParams.salaryMaximum && {
+        salaryMaximum: { $lte: Number(jobSearchParams.salaryMaximum) },
+      }),
+    };
+    console.log("getJobs filter:", filter);
 
-    if (query.location) {
-      query.location = { $regex: query.location, $options: "i" };
-    }
-    if (query.remote) {
-      if (query.remote === "on") {
-        query.remote = true;
-      } else if (query.remote === "off") {
-        query.remote = false;
-      }
-    }
-    if (query.salaryMinimum) {
-      query.salaryMinimum = {
-        ...(query.salaryMinimum && { $gte: Number(query.salaryMinimum) }),
-      };
-    }
-    if (query.salaryMaximum) {
-      query.salaryMaximum = {
-        ...(query.salaryMaximum && { $lte: Number(query.salaryMaximum) }),
-      };
-    }
-
-    const jobs = await Job.find(query).populate({
+    const jobs = await Job.find(filter).populate({
       path: "postedBy",
       model: User,
     });
