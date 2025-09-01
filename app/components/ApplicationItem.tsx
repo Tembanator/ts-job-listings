@@ -1,6 +1,6 @@
 import React from "react";
 
-const ApplicationItem = ({ application }: { application: any }) => {
+const ApplicationItem = ({ application }: { application: Application }) => {
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

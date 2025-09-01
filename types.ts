@@ -63,3 +63,27 @@ declare global {
     lastModified: number;
   }
 }
+declare global {
+  interface Applicant {
+    clerkUserId: string;
+    createdAt: string;
+    email: string;
+    isAdmin: boolean;
+    isCompany: boolean;
+    name: string;
+    updatedAt: string;
+    __v: number;
+    _id: string;
+  }
+}
+declare global {
+  interface Application {
+    _id: string;
+    job: Job;
+    applicationStatus: string;
+    resumeUrl: string;
+    applicant: Applicant;
+    createdAt: string;
+    __v: number;
+  }
+}
