@@ -5,7 +5,7 @@ import React from "react";
 export default async function page({
   params,
 }: {
-  params: { jobSlug: string };
+  params: { jobSlug: string; slug: string };
 }) {
   const { jobSlug } = params;
   const applications = await getJobApplications({ job: jobSlug.toString() });
