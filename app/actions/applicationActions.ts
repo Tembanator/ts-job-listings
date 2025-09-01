@@ -63,15 +63,9 @@ export async function createApplication(resumeUrl: string, jobId: string) {
 //     return JSON.parse(JSON.stringify([]));
 //   }
 // }
-export async function getUserApplications(query: any) {
+export async function getUserApplications(query: { applicant: string }) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 10;
-    const pages = Number(query.pages) || 1;
-
-    delete query.pageSize;
-    delete query.pages;
-
     const applications = await Application.find(query)
       .populate({
         path: "applicant",
@@ -80,9 +74,7 @@ export async function getUserApplications(query: any) {
       .populate({
         path: "job",
         model: Job,
-      })
-      .limit(pageSize)
-      .skip((pages - 1) * pageSize);
+      });
 
     return JSON.parse(JSON.stringify(applications));
   } catch (error) {
@@ -90,15 +82,9 @@ export async function getUserApplications(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
-export async function getJobApplications(query: any) {
+export async function getJobApplications(query: { jobId: string }) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 10;
-    const pages = Number(query.pages) || 1;
-
-    delete query.pageSize;
-    delete query.pages;
-
     const applications = await Application.find(query)
       .populate({
         path: "applicant",
@@ -107,9 +93,7 @@ export async function getJobApplications(query: any) {
       .populate({
         path: "job",
         model: Job,
-      })
-      .limit(pageSize)
-      .skip((pages - 1) * pageSize);
+      });
 
     return JSON.parse(JSON.stringify(applications));
   } catch (error) {
@@ -117,12 +101,9 @@ export async function getJobApplications(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
-export async function getTotalNumberOfApplications(query: any) {
+export async function getTotalNumberOfApplications(query: { jobId: string }) {
   await connectDB();
   try {
-    delete query.pageSize;
-    delete query.pages;
-
     const applicationsTotal = await Application.countDocuments(query);
 
     // console.log("Fetched jobs:", jobs);
