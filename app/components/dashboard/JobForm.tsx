@@ -59,6 +59,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeResponsibility,
   } = useFieldArray({
     control,
+    // @ts-ignore
     name: "responsibilities",
   });
   // First dynamic field array for "qualifications"
@@ -68,6 +69,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeQualification,
   } = useFieldArray({
     control,
+    // @ts-ignore
     name: "qualifications",
   });
 
