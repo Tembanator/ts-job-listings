@@ -1,9 +1,19 @@
 "use client";
-import { MenuIcon, X } from "lucide-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
+import { LogIn, MenuIcon, X } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 function MobileNav() {
+  const { user } = useUser();
+  const role = user?.publicMetadata?.role;
+
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -33,32 +43,36 @@ function MobileNav() {
         >
           Find Jobs
         </Link>
-        <Link
-          href="#"
-          className="text-gray-600 hover:text-indigo-600 transition-colors"
-        >
-          Companies
-        </Link>
+
         {/* Placeholder for company page */}
-        <Link
-          href="/dashboard"
-          className="text-gray-600 hover:text-indigo-600 transition-colors focus:outline-none"
-        >
-          Dashboard
-        </Link>
-        <Link
-          href="#"
-          className="px-2 py-1 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition-colors focus:outline-none"
-        >
-          Post a Job
-        </Link>
+        <SignedIn>
+          <Link
+            href={`/dashboard/${user?.id}/overview`}
+            className="text-gray-600 hover:text-indigo-600 transition-colors focus:outline-none"
+          >
+            Dashboard
+          </Link>
+          {role === "company" && (
+            <Link
+              href={`/dashboard/${user?.id}/post-job`}
+              className="px-2 py-1 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition-colors focus:outline-none"
+            >
+              Post a Job
+            </Link>
+          )}
+        </SignedIn>
         {/* Placeholder for authentication links - integrate with NextAuth */}
-        <Link
-          href="#"
-          className="px-2 py-1 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition-colors"
-        >
-          Login
-        </Link>
+        <SignedOut>
+          <SignInButton>
+            <button className="flex items-center justify-center cursor-pointer space-x-2 bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-transform duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+              <LogIn size={20} />
+              <span>Sign In</span>
+            </button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
         {/* <Link
           href="#"
           className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"

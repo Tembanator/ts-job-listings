@@ -1,5 +1,6 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -16,12 +17,6 @@ export const DesktopNav = async () => {
         className="text-gray-600 hover:text-indigo-600 transition-colors focus:outline-none"
       >
         Find Jobs
-      </Link>
-      <Link
-        href="#"
-        className="text-gray-600 hover:text-indigo-600 transition-colors"
-      >
-        Companies
       </Link>
       {/* Placeholder for company page */}
       <SignedIn>
@@ -43,8 +38,9 @@ export const DesktopNav = async () => {
       {/* Placeholder for authentication links - integrate with NextAuth */}
       <SignedOut>
         <SignInButton>
-          <button className="bg-[#6c47ff] text-white rounded-sm font-medium text-sm sm:text-base sm:h-8 px-4 sm:px-5 cursor-pointer">
-            SignIn
+          <button className="flex items-center justify-center cursor-pointer space-x-2 bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-transform duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+            <LogIn size={20} />
+            <span>Sign In</span>
           </button>
         </SignInButton>
         {/* <SignUpButton>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DesktopNav } from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import JobBoardLogo from "./Logo";
 
 function Navbar() {
   return (
@@ -9,11 +10,10 @@ function Navbar() {
         href="/"
         className="text-2xl font-bold text-indigo-600 cursor-pointer"
       >
-        JobBoard
+        <JobBoardLogo />
       </Link>
       <div className="justify-between items-center hidden sm:flex">
         <DesktopNav />
-        
       </div>
       <div className="sm:hidden">
         <MobileNav />
