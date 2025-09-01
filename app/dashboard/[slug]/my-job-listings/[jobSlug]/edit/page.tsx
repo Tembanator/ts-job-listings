@@ -5,9 +5,9 @@ import React from "react";
 export default async function page({
   params,
 }: {
-  params: { jobSlug: string };
+  params: Promise<{ jobSlug: string }>;
 }) {
-  const { jobSlug } = params;
+  const { jobSlug } = await params;
 
   const job = await getJobById(jobSlug);
 
