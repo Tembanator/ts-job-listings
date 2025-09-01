@@ -26,6 +26,7 @@ export async function createJob(formData: CreateJobFormData) {
     return { success: false };
   }
 }
+
 export async function getTotalNumberOfJobs(query: any) {
   await connectDB();
   try {

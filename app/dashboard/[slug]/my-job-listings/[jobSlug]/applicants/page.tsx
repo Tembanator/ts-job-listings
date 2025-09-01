@@ -52,7 +52,7 @@ export default async function page({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {applications.map((application: any) => (
+            {applications.map((application: Application) => (
               <ApplicantItem key={application._id} application={application} />
             ))}
           </tbody>

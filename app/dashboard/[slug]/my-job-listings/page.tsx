@@ -9,10 +9,10 @@ export default async function page({
   searchParams,
   params,
 }: {
-  searchParams: any;
-  params: any;
+  searchParams: { postedBy?: string; page?: string };
+  params: { slug: string };
 }) {
-  const { slug: clerkUserId } = await params;
+  const { slug: clerkUserId } = params;
 
   const myUser = await findUserByClerkId(clerkUserId);
 
