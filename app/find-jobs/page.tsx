@@ -7,8 +7,8 @@ import {
 import FilterForm from "../components/FilterForm";
 import JobListings from "../components/JobListings";
 
-async function page({ searchParams }: { searchParams: any }) {
-  const awaitedSearchParams = await searchParams;
+async function page({ searchParams }: { searchParams: JobSearchQuery }) {
+  const awaitedSearchParams = searchParams;
   const jobPosts: Job[] | [] = await getJobs(awaitedSearchParams);
   const numJobs = await getTotalNumberOfJobs(awaitedSearchParams);
   const allJobPosts: Job[] | [] = await getAllJobs({});

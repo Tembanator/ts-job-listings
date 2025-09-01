@@ -89,36 +89,12 @@ declare global {
 }
 declare global {
   interface JobSearchQuery {
-    /**
-     * The requested page size. A string or number.
-     * Defaults to 10 if not provided.
-     */
-    pageSize?: string | number;
-
-    /**
-     * The requested page number. A string or number.
-     * Defaults to 1 if not provided.
-     */
-    pages?: string | number;
-
-    /**
-     * The job location. A string used for a regex search.
-     */
-    location?: string | { $regex: string; $options: string };
-
-    /**
-     * The remote status, typically "on" or "off" from a checkbox or toggle.
-     */
-    remote?: "on" | "off" | boolean;
-
-    /**
-     * The minimum salary, provided as a string or number.
-     */
-    salaryMinimum?: string | number | { $gte: number };
-
-    /**
-     * The maximum salary, provided as a string or number.
-     */
-    salaryMaximum?: string | number | { $lte: number };
+    location?: string;
+    remote?: boolean;
+    category?: string;
+    salaryMinimum?: number;
+    salaryMaximum?: number;
+    page?: number;
+    pageSize?: number;
   }
 }
