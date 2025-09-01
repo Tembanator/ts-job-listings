@@ -1,5 +1,3 @@
-import SearchJobsForm from "./components/SearchJobsForm";
-
 // Main App Component
 const App = () => {
   return (
@@ -183,8 +181,8 @@ const App = () => {
             </div>
             <p className="text-gray-700 leading-relaxed">
               We are seeking a seasoned Product Manager to lead our new product
-              initiatives. You'll be responsible for the full product lifecycle,
-              from ideation to launch.
+              initiatives. You will be responsible for the full product
+              lifecycle, from ideation to launch.
             </p>
             <div className="flex justify-end mt-4">
               <a
@@ -212,8 +210,8 @@ const App = () => {
               </div>
             </div>
             <p className="text-gray-700 leading-relaxed">
-              We're looking for a creative UI/UX designer to craft beautiful and
-              intuitive user experiences for our next-generation software.
+              We are looking for a creative UI/UX designer to craft beautiful
+              and intuitive user experiences for our next-generation software.
             </p>
             <div className="flex justify-end mt-4">
               <a

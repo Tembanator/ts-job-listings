@@ -114,7 +114,7 @@ export default function OnboardingComponent() {
                   Job Seeker
                 </h2>
                 <p className="text-sm md:text-base text-gray-500 mt-2">
-                  I'm looking for a new job.
+                  I am looking for a new job.
                 </p>
               </div>
             </label>
