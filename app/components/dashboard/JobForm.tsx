@@ -59,7 +59,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeResponsibility,
   } = useFieldArray({
     control,
-    // @ts-expect-error
+    // @ts-expect-error never type
     name: "responsibilities",
   });
   // First dynamic field array for "qualifications"
@@ -69,7 +69,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeQualification,
   } = useFieldArray({
     control,
-    // @ts-expect-error
+    // @ts-expect-error never type
     name: "qualifications",
   });
 
@@ -83,7 +83,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
       setIsLoading(true);
       const response = !job
         ? await createJob(data)
-        : // @ts-ignore
+        : // @ts-expect-error never type
           await updateJob(job?._id.toString(), data);
       setIsLoading(false);
       if (response.success) {
