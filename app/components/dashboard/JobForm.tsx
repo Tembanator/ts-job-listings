@@ -59,7 +59,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeResponsibility,
   } = useFieldArray({
     control,
-    // @ts-ignore
+    // @ts-expect-error
     name: "responsibilities",
   });
   // First dynamic field array for "qualifications"
@@ -69,7 +69,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
     remove: removeQualification,
   } = useFieldArray({
     control,
-    // @ts-ignore
+    // @ts-expect-error
     name: "qualifications",
   });
 
@@ -88,7 +88,7 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
       setIsLoading(false);
       if (response.success) {
         toast.success("Job Post has been created.");
-        !job && reset();
+        if (!job) reset();
         router.refresh();
       } else {
         toast.error("Failed to create Job Post.");

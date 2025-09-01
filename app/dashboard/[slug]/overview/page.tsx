@@ -7,10 +7,10 @@ import React from "react";
 
 export default async function page() {
   const user = await currentUser();
-  const role = user?.publicMetadata?.role;
   if (!user) {
     return;
   }
+  const role = user?.publicMetadata?.role;
 
   const myUser = await findUserByClerkId(user.id);
 

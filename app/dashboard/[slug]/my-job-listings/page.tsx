@@ -1,13 +1,8 @@
-import {
-  getAllJobs,
-  getJobs,
-  getTotalNumberOfJobs,
-} from "@/app/actions/jobActions";
+import { getAllJobs, getJobs } from "@/app/actions/jobActions";
 import { findUserByClerkId } from "@/app/actions/userActions";
 import JobListingItem from "@/app/components/dashboard/JobListingItem";
 import NoJobsFound from "@/app/components/NoJobsFound";
 import Pagination from "@/app/components/Pagination";
-import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 
 export default async function page({

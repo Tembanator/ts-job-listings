@@ -3,9 +3,6 @@ import Job from "@/models/Job";
 import User from "@/models/User";
 import Application from "@/models/Application";
 import connectDB from "@/lib/mongodb";
-import { CreateJobFormData } from "@/lib/validation";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { findMyCurrentUser } from "./userActions";
 
 export async function createApplication(resumeUrl: string, jobId: string) {
@@ -123,9 +120,6 @@ export async function getJobApplications(query: any) {
 export async function getTotalNumberOfApplications(query: any) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 5;
-    const pages = Number(query.pages) || 1;
-
     delete query.pageSize;
     delete query.pages;
 

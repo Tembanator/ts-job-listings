@@ -2,7 +2,6 @@ import React from "react";
 import JobCard from "./JobCard";
 import NoJobsFound from "./NoJobsFound";
 import Pagination from "./Pagination";
-import { getTotalNumberOfJobs } from "../actions/jobActions";
 
 const JobListings = async ({
   jobs,

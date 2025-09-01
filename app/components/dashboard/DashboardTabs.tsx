@@ -6,10 +6,9 @@ import {
   PlusCircle,
   Settings,
   User,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { NavLink } from "./NavLink";
 import { useUser } from "@clerk/nextjs";

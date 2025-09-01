@@ -4,7 +4,6 @@ import {
   MapPinIcon,
   FolderIcon,
   CurrencyDollarIcon,
-  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline"; // Assumes you have @heroicons/react installed
 import { searchJobs } from "../actions/jobActions";
 import SearchButton from "./SearchButton";

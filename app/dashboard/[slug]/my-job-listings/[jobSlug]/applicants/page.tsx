@@ -9,7 +9,7 @@ export default async function page({ params }: { params: any }) {
   return (
     <>
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        Applicants for "{applications[0]?.job?.title}"
+        Applicants for {applications[0]?.job?.title}
       </h1>
       <div className="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200 p-4">
         <table className="min-w-full divide-y divide-gray-200">

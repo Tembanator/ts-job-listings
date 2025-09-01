@@ -23,9 +23,9 @@ async function page({ searchParams }: { searchParams: any }) {
     ...new Set(activeAllJobPosts.map((job) => job.category)),
   ];
 
-  activeJobPosts.length === 0 && (
-    <div className="grid grid-cols-1 gap-6">No job postings found.</div>
-  );
+  if (activeJobPosts.length === 0) {
+    return <div className="grid grid-cols-1 gap-6">No job postings found.</div>;
+  }
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* Filters Sidebar */}

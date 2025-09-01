@@ -30,9 +30,6 @@ export async function createJob(formData: CreateJobFormData) {
 export async function getTotalNumberOfJobs(query: any) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 5;
-    const pages = Number(query.pages) || 1;
-
     delete query.pageSize;
     delete query.pages;
 
@@ -114,9 +111,6 @@ export async function getJobs(query: any) {
 export async function getAllJobs(query: any) {
   await connectDB();
   try {
-    const pageSize = Number(query.pageSize) || 10;
-    const pages = Number(query.pages) || 1;
-
     delete query.pageSize;
     delete query.pages;
 

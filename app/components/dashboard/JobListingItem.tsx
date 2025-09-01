@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import DeleteButton from "../DeleteButton";
 import ClientLink from "./ClientLink";
-import { ExternalLink, View } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import ViewApplicantsLink from "./ViewApplicantsLink";
 import { getTotalNumberOfApplications } from "@/app/actions/applicationActions";
 

@@ -21,7 +21,7 @@ const NoApplicationsFound = () => {
           No Applications Found
         </h2>
         <p className="text-sm text-gray-600 mb-6">
-          It looks like you haven't applied for any jobs yet.
+          It looks like you have not applied for any jobs yet.
         </p>
 
         {/* The call-to-action button */}
