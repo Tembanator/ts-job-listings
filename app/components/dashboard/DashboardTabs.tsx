@@ -9,7 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 import { NavLink } from "./NavLink";
 import { useUser } from "@clerk/nextjs";
@@ -71,13 +71,13 @@ export default function DashboardTabs() {
             >
               My Job Listings
             </NavLink>
-            <NavLink
+            {/* <NavLink
               href={`/dashboard/${user.id}/applicants`}
               currentPath={currentPath}
               Icon={Users} // Pass the Users icon component
             >
               Applicants
-            </NavLink>
+            </NavLink> */}
             <NavLink
               href={`/dashboard/${user.id}/post-job`}
               currentPath={currentPath}

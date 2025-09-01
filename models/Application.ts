@@ -8,9 +8,9 @@ const ApplicationSchema: Schema = new Schema({
   },
   applicationStatus: {
     type: String,
-    enum: ["Under Review", "Rejected", "Interview Scheduled"],
+    enum: ["Accepted", "Rejected", "New"],
     required: true,
-    default: "Under Review", // Set a default status when a new application is created
+    default: "New", // Set a default status when a new application is created
   },
   resumeUrl: {
     type: String,

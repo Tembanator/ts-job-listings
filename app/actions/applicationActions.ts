@@ -93,6 +93,51 @@ export async function getUserApplications(query: any) {
     return JSON.parse(JSON.stringify([]));
   }
 }
+export async function getJobApplications(query: any) {
+  await connectDB();
+  try {
+    const pageSize = Number(query.pageSize) || 10;
+    const pages = Number(query.pages) || 1;
+
+    delete query.pageSize;
+    delete query.pages;
+
+    const applications = await Application.find(query)
+      .populate({
+        path: "applicant",
+        model: User,
+      })
+      .populate({
+        path: "job",
+        model: Job,
+      })
+      .limit(pageSize)
+      .skip((pages - 1) * pageSize);
+
+    return JSON.parse(JSON.stringify(applications));
+  } catch (error) {
+    console.error("Error fetching applications:", error);
+    return JSON.parse(JSON.stringify([]));
+  }
+}
+export async function getTotalNumberOfApplications(query: any) {
+  await connectDB();
+  try {
+    const pageSize = Number(query.pageSize) || 5;
+    const pages = Number(query.pages) || 1;
+
+    delete query.pageSize;
+    delete query.pages;
+
+    const applicationsTotal = await Application.countDocuments(query);
+
+    // console.log("Fetched jobs:", jobs);
+    return JSON.parse(JSON.stringify(applicationsTotal));
+  } catch (error) {
+    console.error("Error fetching applications count:", error);
+    return JSON.parse(JSON.stringify([]));
+  }
+}
 // export async function getAllJobs(query: any) {
 //   await connectDB();
 //   try {
@@ -209,20 +254,24 @@ export async function getUserApplications(query: any) {
 //     return { success: false, message: "Failed to delete job." };
 //   }
 // }
-// export async function updateJob(id: string, formData: FormData) {
-//   try {
-//     await connectDB();
+export async function updateApplicationStatus(id: string, status: string) {
+  try {
+    await connectDB();
 
-//     const updatedJob = await Job.findByIdAndUpdate(id, formData, {
-//       new: true,
-//     });
-//     if (!updatedJob) {
-//       return { success: false };
-//     }
-//     console.log("Job updated successfully:", updatedJob);
-//     return { success: true };
-//   } catch (error) {
-//     console.error("Error updating job:", error);
-//     return { success: false };
-//   }
-// }
+    const updatedApplication = await Application.findByIdAndUpdate(
+      id,
+      { applicationStatus: status },
+      {
+        new: true,
+      }
+    );
+    if (!updatedApplication) {
+      return { success: false };
+    }
+    console.log("Application updated successfully:", updatedApplication);
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating application status:", error);
+    return { success: false };
+  }
+}

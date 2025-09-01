@@ -12,7 +12,7 @@ const ApplicationItem = ({ application }: { application: any }) => {
       <td className="px-6 py-4 whitespace-nowrap">
         <span
           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-            application.applicationStatus === "Under Review"
+            application.applicationStatus === "New"
               ? "bg-blue-100 text-blue-800"
               : application.applicationStatus === "Rejected"
               ? "bg-red-100 text-red-800"
