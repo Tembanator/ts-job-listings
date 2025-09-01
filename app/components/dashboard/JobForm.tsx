@@ -83,7 +83,8 @@ const JobForm = ({ post, job }: { post: boolean; job?: Job }) => {
       setIsLoading(true);
       const response = !job
         ? await createJob(data)
-        : await updateJob(job?._id.toString(), data);
+        : // @ts-ignore
+          await updateJob(job?._id.toString(), data);
       setIsLoading(false);
       if (response.success) {
         toast.success("Job Post has been created.");
