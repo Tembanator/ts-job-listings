@@ -2,11 +2,14 @@ import { getJobApplications } from "@/app/actions/applicationActions";
 import ApplicantItem from "@/app/components/ApplicantItem";
 import React from "react";
 
-export default async function page({
-  params,
-}: {
-  params: { jobSlug: string; slug: string };
-}) {
+interface ApplicantsPageProps {
+  params: {
+    jobSlug: string;
+    slug: string;
+  };
+}
+
+export default async function page({ params }: ApplicantsPageProps) {
   const { jobSlug } = params;
   const applications = await getJobApplications({ job: jobSlug.toString() });
   console.log(applications);
