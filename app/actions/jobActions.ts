@@ -6,7 +6,6 @@ import { CreateJobFormData } from "@/lib/validation";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { findMyCurrentUser } from "./userActions";
-import { da } from "zod/v4/locales";
 import Application from "@/models/Application";
 
 type JobFilter = {
