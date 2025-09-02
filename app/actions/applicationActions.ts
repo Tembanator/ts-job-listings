@@ -62,7 +62,7 @@ export async function getJobApplications(query: { job: string }) {
     return JSON.parse(JSON.stringify([]));
   }
 }
-export async function getTotalNumberOfApplications(query: { jobId: string }) {
+export async function getTotalNumberOfApplications(query: { job: string }) {
   await connectDB();
   try {
     const applicationsTotal = await Application.countDocuments(query);

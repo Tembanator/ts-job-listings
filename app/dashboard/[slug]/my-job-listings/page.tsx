@@ -1,9 +1,10 @@
-import { getAllJobs, getJobs } from "@/app/actions/jobActions";
+import { getJobs } from "@/app/actions/jobActions";
 import { findUserByClerkId } from "@/app/actions/userActions";
 import JobListingItem from "@/app/components/dashboard/JobListingItem";
 import NoJobsFound from "@/app/components/NoJobsFound";
 import Pagination from "@/app/components/Pagination";
 import React from "react";
+import { toast } from "sonner";
 
 export default async function page({
   searchParams,
@@ -19,21 +20,34 @@ export default async function page({
   const awaitedSearchParams = await searchParams;
   awaitedSearchParams.postedBy = myUser._id;
 
-  const jobs = await getJobs(awaitedSearchParams);
-  const allJobPosts: Job[] | [] = await getAllJobs({
-    postedBy: myUser._id,
-  });
+  const jobs: { success: boolean; data: Job[] } = await getJobs(
+    awaitedSearchParams,
+    true
+  );
 
-  if (!jobs || jobs.length === 0) {
+  const allJobPosts: { success: boolean; data: Job[] } = await getJobs(
+    {
+      postedBy: myUser._id,
+    },
+    false
+  );
+
+  if (!jobs.success || !allJobPosts.success) {
+    return toast.error(
+      "This is not supposed to happen. Please refresh the page"
+    );
+  }
+
+  if (jobs.data.length === 0) {
     return (
       <NoJobsFound
         mainMessage="No job listings found"
-        subMessage="Please post job posts for your company."
+        subMessage="Please post a job listing."
       />
     );
   }
 
-  const totalJobs = allJobPosts.length;
+  const totalJobs = allJobPosts.data.length;
   return (
     <>
       <h1 className="text-3xl font-bold text-gray-800 mb-6">My Job Listings</h1>
@@ -74,7 +88,7 @@ export default async function page({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {jobs.map((job: Job) => (
+            {jobs.data.map((job: Job) => (
               <JobListingItem key={job._id.toString()} job={job} />
             ))}
           </tbody>

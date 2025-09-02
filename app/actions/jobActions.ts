@@ -6,6 +6,8 @@ import { CreateJobFormData } from "@/lib/validation";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { findMyCurrentUser } from "./userActions";
+import { da } from "zod/v4/locales";
+import Application from "@/models/Application";
 
 type JobFilter = {
   location?: { $regex: string; $options: string };
@@ -70,7 +72,10 @@ export async function getTotalNumberOfJobs(jobSearchParams: JobSearchParams) {
   }
 }
 
-export async function getJobs(jobSearchParams: JobSearchParams) {
+export async function getJobs(
+  jobSearchParams: JobSearchParams,
+  paginated: boolean
+) {
   try {
     const filter: JobFilter = {};
 
@@ -97,56 +102,65 @@ export async function getJobs(jobSearchParams: JobSearchParams) {
     const pageSize = 10;
     const pages = Number(jobSearchParams.pages) || 1;
 
-    const jobs = await Job.find(filter)
-      .populate({
+    let jobs: Job[] = [];
+
+    if (paginated) {
+      jobs = await Job.find(filter)
+        .populate({
+          path: "postedBy",
+          model: User,
+        })
+        .limit(pageSize)
+        .skip((pages - 1) * pageSize);
+    }
+    if (!paginated) {
+      jobs = await Job.find(filter).populate({
         path: "postedBy",
         model: User,
-      })
-      .limit(pageSize)
-      .skip((pages - 1) * pageSize);
-
-    return JSON.parse(JSON.stringify(jobs));
+      });
+    }
+    return JSON.parse(JSON.stringify({ success: true, data: jobs }));
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    return JSON.parse(JSON.stringify([]));
+    return JSON.parse(JSON.stringify({ success: false, data: [] }));
   }
 }
-export async function getAllJobs(jobSearchParams: JobSearchParams) {
-  await connectDB();
-  try {
-    const filter: JobFilter = {};
+// export async function getAllJobs(jobSearchParams: JobSearchParams) {
+//   await connectDB();
+//   try {
+//     const filter: JobFilter = {};
 
-    if (jobSearchParams.location) {
-      filter.location = { $regex: jobSearchParams.location, $options: "i" };
-    }
+//     if (jobSearchParams.location) {
+//       filter.location = { $regex: jobSearchParams.location, $options: "i" };
+//     }
 
-    if (jobSearchParams.category) {
-      filter.category = jobSearchParams.category;
-    }
+//     if (jobSearchParams.category) {
+//       filter.category = jobSearchParams.category;
+//     }
 
-    if (jobSearchParams.remote) {
-      filter.remote = jobSearchParams.remote === "on";
-    }
+//     if (jobSearchParams.remote) {
+//       filter.remote = jobSearchParams.remote === "on";
+//     }
 
-    if (jobSearchParams.salaryMinimum) {
-      filter.salaryMinimum = { $gte: Number(jobSearchParams.salaryMinimum) };
-    }
+//     if (jobSearchParams.salaryMinimum) {
+//       filter.salaryMinimum = { $gte: Number(jobSearchParams.salaryMinimum) };
+//     }
 
-    if (jobSearchParams.salaryMaximum) {
-      filter.salaryMaximum = { $lte: Number(jobSearchParams.salaryMaximum) };
-    }
+//     if (jobSearchParams.salaryMaximum) {
+//       filter.salaryMaximum = { $lte: Number(jobSearchParams.salaryMaximum) };
+//     }
 
-    const jobs = await Job.find(filter).populate({
-      path: "postedBy",
-      model: User,
-    });
+//     const jobs = await Job.find(filter).populate({
+//       path: "postedBy",
+//       model: User,
+//     });
 
-    return JSON.parse(JSON.stringify(jobs));
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-    return JSON.parse(JSON.stringify([]));
-  }
-}
+//     return JSON.parse(JSON.stringify({ success: true, data: jobs }));
+//   } catch (error) {
+//     console.error("Error fetching jobs:", error);
+//     return JSON.parse(JSON.stringify({ success: false, data: [] }));
+//   }
+// }
 
 export async function getUniqueCategories() {
   await connectDB();
@@ -225,6 +239,14 @@ export async function deleteJob(
     if (!deletedJob) {
       return { success: false, message: "Job not found." };
     }
+    const existingApplications = await Application.find({
+      job: deletedJob._id,
+    });
+
+    if (existingApplications.length > 0) {
+      await Application.deleteMany({ job: deletedJob._id });
+    }
+
     return { success: true, message: "Job deleted successfully." };
   } catch (error) {
     console.error("Error deleting job:", error);

@@ -18,7 +18,7 @@ const JobBoardLogo = () => {
       </div>
       <div className="flex-shrink-0">
         <h1 className="text-xl md:text-3xl font-extrabold tracking-tight text-gray-700">
-          Job<span className="text-indigo-600">Board</span>
+          TS Job<span className="text-indigo-600">Listings</span>
         </h1>
       </div>
     </div>

@@ -6,6 +6,7 @@ import {
 } from "../actions/jobActions";
 import FilterForm from "../components/FilterForm";
 import JobListings from "../components/JobListings";
+import { toast } from "sonner";
 
 async function page({
   searchParams,
@@ -13,10 +14,21 @@ async function page({
   searchParams: Promise<JobSearchParams>;
 }) {
   const awaitedSearchParams = await searchParams;
-  const jobPosts: Job[] | [] = await getJobs(awaitedSearchParams);
+
+  const jobPosts: { success: boolean; data: Job[] } = await getJobs(
+    awaitedSearchParams,
+    true
+  );
+
+  if (!jobPosts.success) {
+    return toast.error(
+      "This is not supposed to happen. Please refresh the page"
+    );
+  }
+
   const numJobs = await getTotalNumberOfJobs(awaitedSearchParams);
 
-  const activeJobPosts = jobPosts.filter((job) => job.status === "draft");
+  const activeJobPosts = jobPosts.data.filter((job) => job.status === "draft");
 
   // Get unique categories and locations from the mock data for the select dropdowns
   const uniqueCategories = await getUniqueCategories();

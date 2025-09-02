@@ -9,7 +9,7 @@ import { getTotalNumberOfApplications } from "@/app/actions/applicationActions";
 
 const JobListingItem = async ({ job }: { job: Job }) => {
   const numApplicants = await getTotalNumberOfApplications({
-    jobId: job._id.toString(),
+    job: job._id.toString(),
   });
   return (
     <tr>
