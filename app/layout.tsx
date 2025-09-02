@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import LoadingWidget from "./components/Loadingwidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navbar />
+          <LoadingWidget />
           <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
           <Toaster position="bottom-right" richColors />
         </body>
