@@ -56,7 +56,7 @@ export default function OnboardingComponent() {
       await user?.reload();
       setIsLoading(false);
 
-      router.push("/");
+      router.refresh();
     }
     if (res?.error) {
       setError(res?.error);
